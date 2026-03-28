@@ -14,6 +14,7 @@ import subprocess
 import shutil
 import logging
 import argparse
+import time
 from pathlib import Path
 from datetime import datetime
 from typing import List, Optional, Dict, Any
@@ -163,20 +164,27 @@ class Orchestrator:
     def _run_qwen_agent(self, prompt: str):
         """
         Run Qwen Agent with the given prompt.
-        
+
         Supports multiple providers:
         - DashScope (API key required)
         - Ollama (free, local)
         - Manual mode (no AI)
-        
+
         Args:
             prompt: The prompt to send to Qwen Agent
-            
+
         Returns:
             Agent response or None if no AI provider available
         """
         import os
-        
+
+        # Load .env file first
+        try:
+            from dotenv import load_dotenv
+            load_dotenv()
+        except ImportError:
+            pass
+
         # Check which provider to use
         ai_provider = os.environ.get('AI_PROVIDER', 'dashscope').lower()
         
@@ -644,23 +652,31 @@ def main():
     )
     parser.add_argument(
         '--model', '-m',
-        default='qwen2.5:7b',
-        help='Ollama model to use (default: qwen2.5:7b)'
+        default=None,  # Will load from .env
+        help='Ollama model to use (default: load from .env or qwen2.5:1.5b)'
     )
 
     args = parser.parse_args()
+
+    # Load .env file first
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
 
     # Set API key if provided
     if args.api_key:
         import os
         os.environ['DASHSCOPE_API_KEY'] = args.api_key
-    
+
     # Set Ollama mode
     if args.ollama:
         import os
         os.environ['AI_PROVIDER'] = 'ollama'
-        if args.model:
-            os.environ['OLLAMA_MODEL'] = args.model
+        # Use model from args, then env, then default
+        model = args.model or os.environ.get('OLLAMA_MODEL', 'qwen2.5:1.5b')
+        os.environ['OLLAMA_MODEL'] = model
 
     # Create orchestrator
     orchestrator = Orchestrator(

@@ -1,264 +1,204 @@
-# AI Employee - Complete Ollama Setup Guide
+# ✅ Ollama Setup Complete - Bronze Tier Ready!
 
-## Current Status
-
-✅ Python 3.13 installed  
-✅ Python packages (ollama, dotenv) installed  
-✅ Vault structure created  
-✅ Scripts ready  
-❌ **Ollama CLI - NEEDS INSTALLATION**
+**Date:** March 29, 2026  
+**Status:** Fully Operational  
+**AI Provider:** Ollama (Free, Local)  
+**Model:** Qwen2.5:1.5b (986 MB)
 
 ---
 
-## INSTALL OLLAMA NOW (Required Step)
+## What's Installed
 
-### Step 1: Download Ollama
-
-1. **Visit:** https://ollama.com/download
-2. **Click:** "Download for Windows"
-3. **Save:** `OllamaSetup.exe` will download
-
-### Step 2: Install Ollama
-
-1. **Run:** Double-click `OllamaSetup.exe`
-2. **Accept:** Click "Install"
-3. **Wait:** Installation takes 2-3 minutes
-4. **Finish:** Click "Done"
-
-### Step 3: Verify Installation
-
-**IMPORTANT:** Open a **NEW** Command Prompt window (close any open ones first)
-
-```bash
-ollama --version
-```
-
-You should see:
-```
-ollama version 0.5.x
-```
+| Component | Status | Details |
+|-----------|--------|---------|
+| **Ollama** | ✅ Installed | v0.18.3 |
+| **Qwen Model** | ✅ Installed | qwen2.5:1.5b (986 MB) |
+| **Python ollama** | ✅ Installed | Ready to use |
+| **Vault Structure** | ✅ Complete | All folders created |
+| **File Watcher** | ✅ Working | Detects new files |
+| **Orchestrator** | ✅ Working | Processes with AI |
+| **.env Configuration** | ✅ Configured | Ollama enabled |
 
 ---
 
-## After Ollama is Installed
+## Test Results
 
-### Step 4: Download Qwen Model
-
-In the new Command Prompt:
-
-```bash
-ollama pull qwen2.5:7b
-```
-
-This downloads about 4GB. Wait for completion.
-
-Verify:
-```bash
-ollama list
-```
-
-You should see:
-```
-NAME              ID           SIZE
-qwen2.5:7b        ...          4.7 GB
-```
-
-### Step 5: Test Ollama
-
-```bash
-ollama run qwen2.5:7b "Hello, are you ready to help?"
-```
-
-Expected response:
-```
-Hello! Yes, I'm ready to help you with your tasks...
-```
-
-### Step 6: Run Setup Verification
-
-Back in your project folder:
-
-```bash
-cd C:\Project\Hackathon_0\Digital_AI_Employee_FTE
-python check_setup.py
-```
-
-All checks should pass!
+✅ **File Watcher:** Detects files in Inbox  
+✅ **Action Files:** Created in Needs_Action  
+✅ **AI Processing:** Qwen2.5:1.5b responding  
+✅ **Plans Created:** Plans folder populated  
+✅ **Task Completion:** Files moved to Done  
+✅ **Dashboard Updates:** Activity logged  
 
 ---
 
-## Using AI Employee with Ollama
+## Quick Start Commands
 
-### Start File Watcher
+### Start the System
 
-```bash
-cd scripts
-python filesystem_watcher.py ..\AI_Employee_Vault
+```powershell
+# Terminal 1 - Start File Watcher
+cd D:\Hackathon_0\Digital_AI_Employee_FTE\scripts
+python filesystem_watcher.py
 ```
 
-Keep this running in the background.
+```powershell
+# Terminal 2 - Drop a test file
+echo "Please analyze this and create action items" > "D:\Hackathon_0\Digital_AI_Employee_FTE\AI_Employee_Vault\Inbox\test.txt"
+```
 
-### Process Tasks with AI
-
-In a new terminal:
-
-```bash
-cd scripts
+```powershell
+# Terminal 3 - Run Orchestrator
+cd D:\Hackathon_0\Digital_AI_Employee_FTE\scripts
 python orchestrator.py --vault ..\AI_Employee_Vault --ollama --once
 ```
 
-### Complete Workflow Test
+### Or Use Batch Files
 
-1. **Create a test file:**
-   ```
-   AI_Employee_Vault\Inbox\test.txt
-   ```
-   
-   Content:
-   ```
-   Please create a plan to organize this project.
-   ```
+```powershell
+# Quick start everything
+cd D:\Hackathon_0\Digital_AI_Employee_FTE
+.\quick-start-ollama.bat
 
-2. **Wait 30 seconds** (watcher checks every 30s)
+# Test full system
+.\test-full-system.bat
 
-3. **Run orchestrator:**
-   ```bash
-   cd scripts
-   python orchestrator.py --vault ..\AI_Employee_Vault --ollama --once
-   ```
-
-4. **Check results:**
-   - `Plans/` - New plan created by Ollama
-   - `Done/` - Completed task
-   - `Dashboard.md` - Updated
+# Test Ollama only
+.\test-ollama.bat
+```
 
 ---
 
-## Quick Reference
+## Configuration Files
 
-### Ollama Commands
-
-```bash
-# Check version
-ollama --version
-
-# List models
-ollama list
-
-# Download model
-ollama pull qwen2.5:7b
-
-# Test model
-ollama run qwen2.5:7b "Hello"
-
-# Start server (if not auto-started)
-ollama serve
-
-# Stop server
-ollama serve (then Ctrl+C)
+### `.env` (Project Root)
+```
+AI_PROVIDER=ollama
+OLLAMA_MODEL=qwen2.5:1.5b
 ```
 
-### AI Employee Commands
+### `scripts/requirements.txt`
+```
+ollama>=0.1.0
+python-dotenv>=1.0.0
+watchdog>=3.0.0
+```
 
-```bash
-# Check setup
-python check_setup.py
+---
 
-# Start watcher
-cd scripts
-python filesystem_watcher.py ..\AI_Employee_Vault
+## Ollama Commands Reference
 
-# Process tasks (with Ollama)
-python orchestrator.py --vault ..\AI_Employee_Vault --ollama --once
+```powershell
+# Check installed models
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' list }"
 
-# Process tasks (manual mode, no AI)
-python orchestrator.py --vault ..\AI_Employee_Vault --once
+# Check running models
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' ps }"
 
-# Continuous mode
-python orchestrator.py --vault ..\AI_Employee_Vault --ollama --continuous --interval 60
+# Download a new model
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' pull qwen2.5:3b }"
+
+# Test a model
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' run qwen2.5:1.5b 'Hello!' }"
+
+# Remove a model
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' rm qwen2.5:1.5b }"
+```
+
+---
+
+## Vault Structure
+
+```
+AI_Employee_Vault/
+├── Dashboard.md           ✅ Created
+├── Company_Handbook.md    ✅ Created
+├── Business_Goals.md      ✅ Created
+├── Inbox/                 ✅ Working (drop files here)
+├── Needs_Action/          ✅ Working (AI processes these)
+├── Plans/                 ✅ Working (AI creates plans)
+├── Done/                  ✅ Working (completed tasks)
+├── Pending_Approval/      ✅ Created
+├── Approved/              ✅ Created
+├── Rejected/              ✅ Created
+├── Logs/                  ✅ Working (audit logs)
+└── Files/                 ✅ Working (processed files)
 ```
 
 ---
 
 ## Troubleshooting
 
-### "ollama is not recognized"
+### "Model not found" Error
+```powershell
+# Make sure model is downloaded
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' list }"
 
-1. Make sure Ollama is installed
-2. **Close** all Command Prompt windows
-3. Open a **NEW** Command Prompt
-4. Try again: `ollama --version`
-
-### "Connection refused"
-
-Ollama service not running:
-```bash
-ollama serve
+# If not listed, download it
+powershell -Command "& { & 'C:\Users\FATTAN~1\AppData\Local\Programs\Ollama\ollama.exe' pull qwen2.5:1.5b }"
 ```
 
-Or restart your computer (Ollama auto-starts on boot).
-
-### "Model not found"
-
-Download the model:
-```bash
-ollama pull qwen2.5:7b
+### "ollama package not installed" Error
+```powershell
+cd D:\Hackathon_0\Digital_AI_Employee_FTE\scripts
+pip install ollama
 ```
 
-### "Out of memory"
+### Orchestrator Uses Wrong Model
+```powershell
+# Check .env file
+type .env
 
-Use a smaller model:
-```bash
-ollama pull qwen2.5:3b
-python orchestrator.py --vault ..\AI_Employee_Vault --ollama --model qwen2.5:3b --once
-```
-
-### Python script errors
-
-Re-run verification:
-```bash
-python check_setup.py
+# Or specify model explicitly
+python orchestrator.py --vault ..\AI_Employee_Vault --ollama --model qwen2.5:1.5b --once
 ```
 
 ---
 
-## Summary
+## Next Steps (Bronze Tier Complete!)
 
-| Step | Command | Status |
-|------|---------|--------|
-| 1. Install Ollama | Download from website | ⏳ **YOU MUST DO THIS** |
-| 2. Verify | `ollama --version` | ⏳ After install |
-| 3. Download model | `ollama pull qwen2.5:7b` | ⏳ After verify |
-| 4. Test | `ollama run qwen2.5:7b "Hello"` | ⏳ After download |
-| 5. Verify setup | `python check_setup.py` | ⏳ After test |
-| 6. Use AI | `python orchestrator.py --ollama` | ⏳ After verify |
+You have successfully completed **Bronze Tier**:
 
----
+- ✅ Obsidian vault with Dashboard.md, Company_Handbook.md, Business_Goals.md
+- ✅ File System Watcher working
+- ✅ Qwen Code (via Ollama) processing tasks
+- ✅ Folder structure complete
+- ✅ Orchestrator coordinating workflows
 
-## What's Ready Now
+### Upgrade to Silver Tier
 
-✅ Python and all packages installed  
-✅ AI Employee vault created  
-✅ All scripts ready  
-✅ Orchestrator configured for Ollama  
-✅ File watcher ready  
-
-## What You Need to Do
-
-⏳ Install Ollama CLI (one-time, 5 minutes)  
-⏳ Download Qwen model (one-time, 4GB download)  
-⏳ Run `python check_setup.py` to verify  
+Add these features:
+- [ ] Gmail Watcher for email monitoring
+- [ ] WhatsApp Watcher for message monitoring
+- [ ] MCP server for sending emails
+- [ ] Scheduled tasks via Task Scheduler
+- [ ] LinkedIn auto-posting
 
 ---
 
-**After installing Ollama, run:**
-```bash
-python check_setup.py
-```
+## Performance Notes
 
-**If all checks pass, you're ready to go!** 🎉
+| Metric | Value |
+|--------|-------|
+| Model Size | 986 MB |
+| Average Response Time | 50-60 seconds |
+| RAM Usage | ~2 GB during inference |
+| Disk Usage | ~1 GB total |
+
+**Upgrade Path:** For better quality responses, download larger models:
+- `qwen2.5:3b` (2 GB) - Better reasoning
+- `qwen2.5:7b` (4.7 GB) - Best quality, slower
 
 ---
 
-*AI Employee v0.1 - Bronze Tier*
-*Complete Ollama Setup Guide*
+## Support & Resources
+
+- **Ollama Download:** https://ollama.com/download
+- **Qwen Models:** https://ollama.com/library/qwen2.5
+- **Hackathon Docs:** `Personal AI Employee Hackathon 0_ Building Autonomous FTEs in 2026.md`
+- **Wednesday Meetings:** 10:00 PM Zoom (ID: 871 8870 7642)
+
+---
+
+*AI Employee v0.1 - Bronze Tier*  
+*Powered by Ollama + Qwen2.5:1.5b + Obsidian*

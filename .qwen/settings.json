@@ -17,7 +17,18 @@
       "Glob(*)",
       "Grep(*)",
       "LS(*)",
-      "Agent(*)"
+      "Agent(*)",
+      "Bash(ollama *)",
+      "Bash(setx *)",
+      "Bash(\"c:\\users\\fattani computers\\appdata\\local\\programs\\ollama\\ollama.exe\" *)",
+      "Bash(powershell *)",
+      "Bash(.\\configure-ollama.bat)",
+      "Bash(pip show *)",
+      "Bash(.\\test-ollama.bat)",
+      "Bash(start *)",
+      "Bash(.\\quick-start-ollama.bat)",
+      "Bash(.\\test-full-system.bat)",
+      "Bash(taskkill *)"
     ]
   },
   "model": {
