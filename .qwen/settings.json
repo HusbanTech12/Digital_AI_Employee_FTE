@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir *)",
+      "Bash(python *)",
+      "Bash(pip install *)",
+      "Bash(qwen *)",
+      "Bash(dir *)",
+      "Bash(type *)",
+      "Bash(copy *)",
+      "Bash(move *)",
+      "Bash(del *)",
+      "Bash(echo *)",
+      "ReadFile(*)",
+      "WriteFile(*)",
+      "Edit(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "LS(*)",
+      "Agent(*)"
+    ]
+  },
+  "model": {
+    "name": "qwen-plus",
+    "provider": "dashscope"
+  },
+  "features": {
+    "enable_mcp": true,
+    "enable_skills": true,
+    "enable_file_watching": true
+  },
+  "vault": {
+    "path": "./AI_Employee_Vault",
+    "folders": {
+      "inbox": "Inbox",
+      "needs_action": "Needs_Action",
+      "plans": "Plans",
+      "done": "Done",
+      "pending_approval": "Pending_Approval",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "logs": "Logs"
+    }
+  },
+  "$version": 3
+}

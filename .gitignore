@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Qwen Agent
+.qwen/settings.json.orig
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+Logs/
+
+# Processed files tracking
+filesystem_processed.txt
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Vault specific (optional - uncomment if you don't want to sync vault)
+# AI_Employee_Vault/Logs/
+# AI_Employee_Vault/Files/
