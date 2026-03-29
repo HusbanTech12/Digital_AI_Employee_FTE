@@ -1,0 +1,261 @@
+{
+  "timestamp": "2026-03-29T02:41:10.801889",
+  "vault_path": "C:\\Project\\Hackathon_0\\Digital_AI_Employee_FTE\\AI_Employee_Vault",
+  "tests": [
+    {
+      "name": "Watcher: filesystem_watcher.py",
+      "passed": true,
+      "message": "Found - Bronze Tier (required)",
+      "warning": false
+    },
+    {
+      "name": "Watcher: gmail_watcher.py",
+      "passed": true,
+      "message": "Found - Silver Tier",
+      "warning": false
+    },
+    {
+      "name": "Watcher: whatsapp_watcher.py",
+      "passed": true,
+      "message": "Found - Silver Tier",
+      "warning": false
+    },
+    {
+      "name": "Watcher: linkedin_poster.py",
+      "passed": true,
+      "message": "Found - Silver Tier (posting)",
+      "warning": false
+    },
+    {
+      "name": "Silver Tier Watcher Requirement",
+      "passed": true,
+      "message": "Found 2 Silver tier watchers (Gmail/WhatsApp)",
+      "warning": false
+    },
+    {
+      "name": "MCP Server Directory",
+      "passed": true,
+      "message": "Found: C:\\Project\\Hackathon_0\\Digital_AI_Employee_FTE\\mcp-servers\\email-mcp",
+      "warning": false
+    },
+    {
+      "name": "MCP File: package.json",
+      "passed": true,
+      "message": "Present",
+      "warning": false
+    },
+    {
+      "name": "MCP File: index.js",
+      "passed": true,
+      "message": "Present",
+      "warning": false
+    },
+    {
+      "name": "MCP Dependencies",
+      "passed": true,
+      "message": "nodemailer found in dependencies",
+      "warning": false
+    },
+    {
+      "name": "Folder: Pending_Approval",
+      "passed": true,
+      "message": "Approval requests folder exists",
+      "warning": false
+    },
+    {
+      "name": "Folder: Approved",
+      "passed": true,
+      "message": "Approved actions folder exists",
+      "warning": false
+    },
+    {
+      "name": "Folder: Rejected",
+      "passed": true,
+      "message": "Rejected actions folder exists",
+      "warning": false
+    },
+    {
+      "name": "Approval Skill: Silver Tier version",
+      "passed": false,
+      "message": "Missing: Version: 2.0",
+      "warning": true
+    },
+    {
+      "name": "Approval Skill: Auto-approval rules",
+      "passed": true,
+      "message": "Found: auto_approve",
+      "warning": false
+    },
+    {
+      "name": "Approval Skill: Audit logging",
+      "passed": true,
+      "message": "Found: audit",
+      "warning": false
+    },
+    {
+      "name": "Approval Skill: Escalation handling",
+      "passed": true,
+      "message": "Found: escalat",
+      "warning": false
+    },
+    {
+      "name": "Plan Generator Skill",
+      "passed": true,
+      "message": "Found: C:\\Project\\Hackathon_0\\Digital_AI_Employee_FTE\\skills\\plan-generator\\SKILL.md",
+      "warning": false
+    },
+    {
+      "name": "Plan Template: Plan frontmatter",
+      "passed": true,
+      "message": "Found: type: plan",
+      "warning": false
+    },
+    {
+      "name": "Plan Template: Step breakdown",
+      "passed": true,
+      "message": "Found: Steps",
+      "warning": false
+    },
+    {
+      "name": "Plan Template: Success criteria",
+      "passed": true,
+      "message": "Found: Success Criteria",
+      "warning": false
+    },
+    {
+      "name": "Plan Template: Step dependencies",
+      "passed": true,
+      "message": "Found: Dependencies",
+      "warning": false
+    },
+    {
+      "name": "Scheduler Script",
+      "passed": true,
+      "message": "Found: C:\\Project\\Hackathon_0\\Digital_AI_Employee_FTE\\scripts\\scheduler.py",
+      "warning": false
+    },
+    {
+      "name": "Scheduler: Install tasks",
+      "passed": true,
+      "message": "Found: def install",
+      "warning": false
+    },
+    {
+      "name": "Scheduler: Remove tasks",
+      "passed": true,
+      "message": "Found: def remove",
+      "warning": false
+    },
+    {
+      "name": "Scheduler: Status check",
+      "passed": true,
+      "message": "Found: def status",
+      "warning": false
+    },
+    {
+      "name": "Scheduler: Windows Task Scheduler",
+      "passed": true,
+      "message": "Found: schtasks",
+      "warning": false
+    },
+    {
+      "name": "Scheduled Script: Daily CEO Briefing",
+      "passed": true,
+      "message": "Found: daily_briefing.py",
+      "warning": false
+    },
+    {
+      "name": "Scheduled Script: Weekly Business Audit",
+      "passed": true,
+      "message": "Found: weekly_audit.py",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Needs_Action",
+      "passed": true,
+      "message": "Pending items to process",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Plans",
+      "passed": true,
+      "message": "Claude action plans",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Done",
+      "passed": true,
+      "message": "Completed tasks",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Pending_Approval",
+      "passed": true,
+      "message": "Awaiting approval",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Approved",
+      "passed": true,
+      "message": "Approved actions",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Rejected",
+      "passed": true,
+      "message": "Rejected actions",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Logs",
+      "passed": true,
+      "message": "Audit logs",
+      "warning": false
+    },
+    {
+      "name": "Vault Folder: Briefings",
+      "passed": true,
+      "message": "Daily/Weekly briefings",
+      "warning": false
+    },
+    {
+      "name": "Vault File: Dashboard.md",
+      "passed": true,
+      "message": "Main dashboard",
+      "warning": false
+    },
+    {
+      "name": "Vault File: Company_Handbook.md",
+      "passed": true,
+      "message": "Rules and contacts",
+      "warning": false
+    },
+    {
+      "name": "Vault File: Business_Goals.md",
+      "passed": true,
+      "message": "Business objectives",
+      "warning": false
+    },
+    {
+      "name": "Dependency: playwright",
+      "passed": true,
+      "message": "Listed - WhatsApp/LinkedIn automation",
+      "warning": false
+    },
+    {
+      "name": "Dependency: google-api-python-client",
+      "passed": true,
+      "message": "Listed - Gmail API",
+      "warning": false
+    },
+    {
+      "name": "Dependency: google-auth",
+      "passed": true,
+      "message": "Listed - Google authentication",
+      "warning": false
+    }
+  ],
+  "passed": 41,
+  "failed": 0,
+  "warnings": 1
+}

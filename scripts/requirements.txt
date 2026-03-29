@@ -1,4 +1,4 @@
-# AI Employee - Bronze Tier
+# AI Employee - Gold Tier
 # Python Dependencies
 
 # Core dependencies
@@ -17,16 +17,25 @@ ollama>=0.1.0
 qwen-agent>=0.0.34
 dashscope>=1.25.0
 
-# Optional: For Gmail watcher (Silver tier+)
-# google-api-python-client>=2.100.0
-# google-auth-httplib2>=0.1.1
-# google-auth-oauthlib>=1.0.0
+# Silver Tier: Gmail watcher
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.1.1
+google-auth-oauthlib>=1.0.0
 
-# Optional: For WhatsApp watcher (Silver tier+)
-# playwright>=1.40.0
+# Silver Tier: WhatsApp watcher (Playwright-based)
+playwright>=1.40.0
 
-# Optional: For email sending
-# aiosmtplib>=3.0.0
+# Silver Tier: LinkedIn automation (uses Playwright)
+# (playwright already listed above)
+
+# Gold Tier: Social media integration
+# Facebook, Instagram, Twitter (uses Playwright)
+
+# Gold Tier: Audit logging
+# (no additional dependencies)
+
+# Gold Tier: Error recovery
+# (uses standard library)
 
 # Development
 pytest>=7.4.0
