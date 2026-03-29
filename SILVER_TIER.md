@@ -8,16 +8,21 @@
 
 This document provides step-by-step instructions for implementing the Silver Tier of the Personal AI Employee system. Silver Tier builds upon the Bronze Tier foundation by adding multiple watchers, MCP server integration, human-in-the-loop approvals, and scheduling.
 
+**Silver Tier AI Integration:**
+- **Ollama (Recommended)**: Free, local AI using Qwen2.5 models via qwen-agent library
+- **DashScope (Optional)**: Cloud-based AI with API key for production use
+- **qwen-agent Library**: Unified agent framework for both providers
+
 ## Silver Tier Requirements
 
 1. ✅ All Bronze Tier requirements
 2. ✅ Two or more Watcher scripts (Gmail + WhatsApp + LinkedIn)
 3. ✅ Auto-posting to LinkedIn for business promotion
-4. ✅ Claude reasoning loop that creates Plan.md files
+4. ✅ Qwen Agent reasoning loop (via Ollama or DashScope) that creates Plan.md files
 5. ✅ One working MCP server for external action (email-mcp)
 6. ✅ Human-in-the-loop approval workflow
 7. ✅ Basic scheduling via Windows Task Scheduler
-8. ✅ All AI functionality implemented as Agent Skills
+8. ✅ All AI functionality implemented using qwen-agent library with Ollama/DashScope
 
 ## Quick Start
 
@@ -29,7 +34,50 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
-### 2. Setup Gmail API (Optional but Recommended)
+### 2. Setup Ollama (Recommended - Free Local AI)
+
+**Step 1: Install Ollama**
+- Download from: https://ollama.com/download
+- Run installer
+- Verify: `ollama --version`
+
+**Step 2: Download Qwen Model**
+```bash
+# Recommended model (good balance of speed and quality)
+ollama pull qwen2.5:7b
+
+# Or use a smaller model for faster inference
+ollama pull qwen2.5:3b
+
+# Or use a larger model for better quality
+ollama pull qwen2.5:14b
+```
+
+**Step 3: Test Ollama**
+```bash
+ollama run qwen2.5:7b "Hello, are you working?"
+```
+
+**Step 4: Configure Environment**
+Create `.env` file in project root:
+```
+AI_PROVIDER=ollama
+OLLAMA_MODEL=qwen2.5:7b
+```
+
+### 3. Setup DashScope (Optional - Cloud AI)
+
+If you prefer cloud-based AI with higher quality:
+
+1. Get API key from: https://dashscope.console.aliyun.com/
+2. Create `.env` file:
+```
+AI_PROVIDER=dashscope
+DASHSCOPE_API_KEY=your_api_key_here
+QWEN_MODEL=qwen-plus
+```
+
+### 4. Setup Gmail API (Optional but Recommended)
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select existing
@@ -38,7 +86,7 @@ playwright install chromium
 5. Download `credentials.json` to project root
 6. First run will open browser for authorization
 
-### 3. Setup WhatsApp (Optional)
+### 5. Setup WhatsApp (Optional)
 
 WhatsApp watcher uses WhatsApp Web. First run requires QR code scan:
 
@@ -48,10 +96,15 @@ WhatsApp watcher uses WhatsApp Web. First run requires QR code scan:
 4. Scan QR code when prompted
 5. Session saved for future runs
 
-### 4. Start Silver Tier
+### 6. Start Silver Tier
 
 ```bash
+# Using batch file (Windows)
 start-silver-tier.bat
+
+# Or run orchestrator directly
+cd scripts
+python orchestrator.py --vault ..\AI_Employee_Vault --ollama --once
 ```
 
 ## Architecture
@@ -76,10 +129,11 @@ start-silver-tier.bat
 │                         │                                   │
 │                         ▼                                   │
 │  ┌───────────────────────────────────────────┐             │
-│  │        Claude Code + Skills               │             │
-│  │  - plan-generator                         │             │
-│  │  - approval-handler                       │             │
-│  │  - task-manager                           │             │
+│  │        Qwen Agent (Ollama/DashScope)      │             │
+│  │  - qwen_agent_config.py                   │             │
+│  │  - orchestrator.py                        │             │
+│  │  - plan-generator skill                   │             │
+│  │  - approval-handler skill                 │             │
 │  └───────────────────┬───────────────────────┘             │
 │                      │                                      │
 │         ┌────────────┼────────────┐                        │
@@ -102,6 +156,13 @@ start-silver-tier.bat
 │  │  - Daily Briefing (8:00 AM)               │             │
 │  │  - Weekly Audit (Monday 7:00 AM)          │             │
 │  └───────────────────────────────────────────┘             │
+│                                                              │
+│  AI Provider Options:                                        │
+│  ┌─────────────────┐     ┌─────────────────┐               │
+│  │   Ollama        │     │   DashScope     │               │
+│  │   (Local/Free)  │     │   (Cloud/API)   │               │
+│  │   qwen2.5:7b    │     │   qwen-plus     │               │
+│  └─────────────────┘     └─────────────────┘               │
 └─────────────────────────────────────────────────────────────┘
 ```
 

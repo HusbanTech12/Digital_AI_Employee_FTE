@@ -1,42 +1,92 @@
-# AI Employee - Gold Tier
-# Python Dependencies
+# AI Employee - Silver Tier Dependencies
+# Python Dependencies for Ollama + qwen-agent Integration
 
-# Core dependencies
+# ===========================================
+# Core Dependencies (Required)
+# ===========================================
 watchdog>=3.0.0
 pathlib2>=2.3.7
-
-# Environment variables
 python-dotenv>=1.0.0
 
-# AI Providers (choose one or more)
+# ===========================================
+# AI Providers (Choose One or Both)
+# ===========================================
 
-# Option 1: Ollama (FREE, Local - Recommended)
+# Option 1: Ollama (FREE, Local - RECOMMENDED for Silver Tier)
+# No API key required, runs locally on your machine
 ollama>=0.1.0
 
 # Option 2: DashScope (API key required, free credits for new users)
+# Higher quality models, but requires internet and API key
 qwen-agent>=0.0.34
 dashscope>=1.25.0
 
-# Silver Tier: Gmail watcher
+# ===========================================
+# Silver Tier: Email Integration
+# ===========================================
+
+# Gmail API (for Gmail Watcher)
 google-api-python-client>=2.100.0
 google-auth-httplib2>=0.1.1
 google-auth-oauthlib>=1.0.0
 
-# Silver Tier: WhatsApp watcher (Playwright-based)
+# ===========================================
+# Silver Tier: WhatsApp Integration
+# ===========================================
+
+# Playwright for browser automation (WhatsApp Web)
 playwright>=1.40.0
 
-# Silver Tier: LinkedIn automation (uses Playwright)
-# (playwright already listed above)
+# After installation, run: playwright install chromium
 
-# Gold Tier: Social media integration
-# Facebook, Instagram, Twitter (uses Playwright)
+# ===========================================
+# Silver Tier: LinkedIn Integration
+# ===========================================
 
-# Gold Tier: Audit logging
-# (no additional dependencies)
+# LinkedIn auto-posting (uses Playwright - already listed above)
+# No additional dependencies needed
 
-# Gold Tier: Error recovery
-# (uses standard library)
+# ===========================================
+# Gold Tier: Additional Social Media
+# ===========================================
 
-# Development
+# Facebook, Instagram, Twitter (uses Playwright - already listed above)
+# No additional dependencies needed
+
+# ===========================================
+# Gold Tier: Audit Logging & Error Recovery
+# ===========================================
+
+# These use standard library - no additional dependencies
+
+# ===========================================
+# Development & Testing
+# ===========================================
+
 pytest>=7.4.0
 pytest-cov>=4.1.0
+
+# ===========================================
+# Optional: MCP Servers (For Advanced Actions)
+# ===========================================
+
+# MCP SDK (if building MCP servers)
+# mcp>=1.0.0
+
+# ===========================================
+# Installation Instructions
+# ===========================================
+# 
+# Basic Installation (All dependencies):
+#   pip install -r requirements.txt
+#   playwright install chromium
+#
+# Minimal Installation (Ollama only - Recommended):
+#   pip install watchdog python-dotenv ollama
+#
+# Silver Tier Full Setup:
+#   pip install -r requirements.txt
+#   playwright install chromium
+#   ollama pull qwen2.5:7b
+#
+# ===========================================

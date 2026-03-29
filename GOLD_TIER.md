@@ -8,9 +8,14 @@
 
 This document provides step-by-step instructions for implementing the Gold Tier of the Personal AI Employee system. Gold Tier builds upon Silver Tier by adding full cross-domain integration, accounting systems, multiple social media platforms, comprehensive audit logging, error recovery, and autonomous task completion.
 
+**Gold Tier AI Integration:**
+- **Ollama (Default)**: Free, local AI using Qwen2.5 models
+- **DashScope (Optional)**: Cloud-based AI with API key for production use
+- **qwen-agent Library**: Unified agent framework for both providers
+
 ## Gold Tier Requirements
 
-1. ✅ All Silver Tier requirements
+1. ✅ All Silver Tier requirements (with Ollama integration)
 2. ✅ Full cross-domain integration (Personal + Business)
 3. ✅ Odoo accounting integration via MCP server
 4. ✅ Facebook and Instagram integration
@@ -20,7 +25,7 @@ This document provides step-by-step instructions for implementing the Gold Tier 
 8. ✅ Error recovery and graceful degradation
 9. ✅ Comprehensive audit logging
 10. ✅ Ralph Wiggum loop for autonomous multi-step task completion
-11. ✅ All AI functionality implemented as Agent Skills
+11. ✅ All AI functionality using qwen-agent with Ollama/DashScope
 
 ## Quick Start
 
@@ -32,24 +37,32 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
-### 2. Setup MCP Servers
+### 2. Setup Ollama (Required - Local AI)
 
+**If not already done:**
 ```bash
-# Email MCP (Silver Tier)
-cd mcp-servers/email-mcp
-npm install
+# Install Ollama from: https://ollama.com/download
 
-# Odoo MCP (Gold Tier)
-cd mcp-servers/odoo-mcp
-npm install
+# Download Qwen model (recommended)
+ollama pull qwen2.5:7b
+
+# Or use the model you have
+ollama pull qwen2.5:1.5b
+
+# Test it works
+ollama run qwen2.5:1.5b "Hello!"
 ```
 
-### 3. Configure Environment
+### 3. Configure Environment (.env file)
 
 Create `.env` file in project root:
 
 ```bash
-# Email Configuration
+# AI Provider Configuration
+AI_PROVIDER=ollama
+OLLAMA_MODEL=qwen2.5:1.5b
+
+# Email Configuration (for email-mcp)
 EMAIL_PROVIDER=smtp
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
@@ -63,16 +76,34 @@ ODOO_USERNAME=admin
 ODOO_PASSWORD=admin
 ```
 
-### 4. Start Gold Tier
+### 4. Setup MCP Servers
 
 ```bash
-start-gold-tier.bat
+# Email MCP (Silver Tier)
+cd mcp-servers/email-mcp
+npm install
+
+# Odoo MCP (Gold Tier)
+cd mcp-servers/odoo-mcp
+npm install
 ```
 
-### 5. Run Tests
+### 5. Start Gold Tier
+
+```bash
+# Using batch file (Windows)
+start-gold-tier.bat
+
+# Or run orchestrator directly
+cd scripts
+python orchestrator.py --vault ..\AI_Employee_Vault --ollama --once
+```
+
+### 6. Run Tests
 
 ```bash
 python scripts/test_gold_tier.py
+python scripts/test_ollama_integration.py
 ```
 
 ## Architecture
