@@ -28,7 +28,10 @@
       "Bash(start *)",
       "Bash(.\\quick-start-ollama.bat)",
       "Bash(.\\test-full-system.bat)",
-      "Bash(taskkill *)"
+      "Bash(taskkill *)",
+      "WebSearch",
+      "WebFetch(qwenlm.github.io)",
+      "WebFetch(docs.roocode.com)"
     ]
   },
   "model": {

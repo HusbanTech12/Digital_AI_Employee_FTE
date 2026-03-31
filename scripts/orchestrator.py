@@ -47,14 +47,22 @@ try:
 except ImportError:
     QWEN_AGENT_AVAILABLE = False
 
+# Import Qwen Code CLI provider (preferred)
+try:
+    from qwen_code_provider import QwenCodeProvider
+    QWEN_CODE_CLI_AVAILABLE = True
+except ImportError:
+    QWEN_CODE_CLI_AVAILABLE = False
+
 
 class Orchestrator:
     """
     Main orchestrator for the AI Employee system.
 
-    Coordinates between watchers, Qwen Agent (Ollama/DashScope), and the vault.
-    
+    Coordinates between watchers, Qwen Code CLI, Ollama, DashScope, and the vault.
+
     Silver Tier Features:
+    - Qwen Code CLI integration (preferred, full-featured)
     - Ollama integration (free, local AI)
     - DashScope integration (API-based)
     - Human-in-the-loop approval handling
@@ -76,17 +84,18 @@ class Orchestrator:
             vault_path: Path to the Obsidian vault
             max_iterations: Maximum iterations for persistence loop
             dry_run: If True, log actions without executing
-            ai_provider: 'ollama' or 'dashscope' (auto-detected if not specified)
+            ai_provider: 'qwen_code_cli', 'ollama' or 'dashscope' (auto-detected if not specified)
             model: Model name (auto-detected from env if not specified)
         """
         self.vault_path = Path(vault_path)
         self.max_iterations = max_iterations
         self.dry_run = dry_run
-        
-        # AI Provider configuration
-        self.ai_provider = ai_provider or os.environ.get('AI_PROVIDER', 'ollama').lower()
+
+        # AI Provider configuration - prefer Qwen Code CLI
+        self.ai_provider = ai_provider or os.environ.get('AI_PROVIDER', 'qwen_code_cli').lower()
         self.model = model or os.environ.get('OLLAMA_MODEL', 'qwen2.5:7b')
         self.dashscope_model = os.environ.get('QWEN_MODEL', 'qwen-plus')
+        self.qwen_code_model = os.environ.get('QWEN_CODE_MODEL', 'qwen-plus')
 
         # Setup paths
         self.needs_action = self.vault_path / 'Needs_Action'
@@ -105,6 +114,14 @@ class Orchestrator:
 
         # Setup logging
         self._setup_logging()
+
+        # Initialize Qwen Code provider if selected
+        self.qwen_code_provider = None
+        if self.ai_provider == 'qwen_code_cli':
+            self.qwen_code_provider = QwenCodeProvider(
+                vault_path=str(self.vault_path),
+                model=self.qwen_code_model
+            )
 
         self.logger.info(f'Orchestrator initialized')
         self.logger.info(f'Vault: {self.vault_path}')
@@ -163,11 +180,13 @@ class Orchestrator:
     def _is_ai_available(self) -> bool:
         """
         Check if AI provider is available.
-        
+
         Returns:
             True if AI provider is available
         """
-        if self.ai_provider == 'ollama':
+        if self.ai_provider == 'qwen_code_cli':
+            return QWEN_CODE_CLI_AVAILABLE and self.qwen_code_provider is not None and self.qwen_code_provider.is_available()
+        elif self.ai_provider == 'ollama':
             return OLLAMA_AVAILABLE
         elif self.ai_provider == 'dashscope':
             api_key = os.environ.get('DASHSCOPE_API_KEY')
@@ -176,10 +195,12 @@ class Orchestrator:
 
     def process_with_qwen(self, action_file: Path) -> bool:
         """
-        Process an action file with Qwen Agent (Ollama or DashScope).
+        Process an action file with Qwen (Qwen Code CLI, Ollama, or DashScope).
 
         Silver Tier Integration:
-        - Uses qwen-agent library with Ollama (free, local) or DashScope (API)
+        - Qwen Code CLI (preferred, full-featured agent)
+        - Ollama (free, local AI)
+        - DashScope (API key required)
         - Creates action plans and executes tasks
         - Handles human-in-the-loop approval requests
 
@@ -205,17 +226,20 @@ class Orchestrator:
         # Check AI provider availability
         if not self._is_ai_available():
             self.logger.warning('No AI provider available. Task queued for manual processing.')
-            self.logger.info('Install ollama (pip install ollama) or set DASHSCOPE_API_KEY')
+            self.logger.info('Install Qwen Code CLI, ollama (pip install ollama), or set DASHSCOPE_API_KEY')
             return False
 
         try:
             # Process with configured AI provider
-            result = self._run_qwen_agent(prompt)
+            if self.ai_provider == 'qwen_code_cli':
+                result = self._run_qwen_code_cli(action_file, content)
+            else:
+                result = self._run_qwen_agent(prompt)
 
             if result is not None:
                 # Log output
-                self.logger.info(f'Qwen Agent response: {str(result)[:500]}...')
-                
+                self.logger.info(f'Qwen response: {str(result)[:500]}...')
+
                 # Check for task completion marker
                 if '<promise>TASK_COMPLETE</promise>' in str(result):
                     self.logger.info('Task marked as complete by AI')
@@ -228,9 +252,47 @@ class Orchestrator:
                 return False
 
         except Exception as e:
-            self.logger.error(f'Error processing with Qwen Agent: {e}')
+            self.logger.error(f'Error processing with Qwen: {e}')
             self.logger.info('Falling back to manual processing mode.')
             return False
+
+    def _run_qwen_code_cli(self, action_file: Path, content: str) -> Optional[str]:
+        """
+        Run Qwen Code CLI to process an action file.
+
+        This is the preferred method for full-featured agent capabilities.
+
+        Args:
+            action_file: Path to the action file
+            content: Content of the action file
+
+        Returns:
+            Response text or None if failed
+        """
+        if not self.qwen_code_provider:
+            self.logger.warning('Qwen Code provider not initialized')
+            return None
+
+        try:
+            self.logger.info(f'Using Qwen Code CLI with model: {self.qwen_code_model}')
+
+            # Build task description
+            task_description = f"Process this action file: {action_file.name}"
+
+            # Execute task using Qwen Code provider
+            result = self.qwen_code_provider.execute_task(
+                task_description=task_description,
+                action_file_path=str(action_file),
+                plan_file_path=None
+            )
+
+            if result:
+                return "Task processed by Qwen Code CLI"
+            return None
+
+        except Exception as e:
+            self.logger.error(f'Qwen Code CLI error: {e}')
+            return None
 
     def _run_qwen_agent(self, prompt: str):
         """
@@ -700,6 +762,11 @@ def main():
         help='Use Ollama (free, local) instead of DashScope'
     )
     parser.add_argument(
+        '--qwen-code',
+        action='store_true',
+        help='Use Qwen Code CLI (preferred, full-featured agent)'
+    )
+    parser.add_argument(
         '--model', '-m',
         default=None,
         help='Ollama model to use (default: load from .env or qwen2.5:7b)'
@@ -707,7 +774,7 @@ def main():
     parser.add_argument(
         '--provider', '-p',
         default=None,
-        help='AI provider: ollama or dashscope'
+        help='AI provider: qwen_code_cli, ollama or dashscope'
     )
 
     args = parser.parse_args()
@@ -719,6 +786,8 @@ def main():
     # Set provider
     if args.provider:
         os.environ['AI_PROVIDER'] = args.provider.lower()
+    elif args.qwen_code:
+        os.environ['AI_PROVIDER'] = 'qwen_code_cli'
     elif args.ollama:
         os.environ['AI_PROVIDER'] = 'ollama'
 
@@ -730,7 +799,7 @@ def main():
     orchestrator = Orchestrator(
         vault_path=args.vault,
         dry_run=args.dry_run,
-        ai_provider=args.provider or ('ollama' if args.ollama else None),
+        ai_provider=args.provider or ('qwen_code_cli' if args.qwen_code else ('ollama' if args.ollama else None)),
         model=args.model
     )
 

@@ -1,5 +1,5 @@
-# AI Employee - Silver Tier Dependencies
-# Python Dependencies for Ollama + qwen-agent Integration
+# AI Employee - Dependencies
+# Python Dependencies for Qwen Code CLI, Ollama, and DashScope Integration
 
 # ===========================================
 # Core Dependencies (Required)
@@ -9,14 +9,20 @@ pathlib2>=2.3.7
 python-dotenv>=1.0.0
 
 # ===========================================
-# AI Providers (Choose One or Both)
+# AI Providers (Choose One or More)
 # ===========================================
 
-# Option 1: Ollama (FREE, Local - RECOMMENDED for Silver Tier)
+# Option 1: Qwen Code CLI (RECOMMENDED - Full-featured agent)
+# Install separately from: https://chat.qwen.ai
+# Or via npm: npm install -g @qwen-code/cli
+# No Python package needed - uses subprocess to call CLI
+
+# Option 2: Ollama (FREE, Local)
 # No API key required, runs locally on your machine
+# Download from: https://ollama.com/download
 ollama>=0.1.0
 
-# Option 2: DashScope (API key required, free credits for new users)
+# Option 3: DashScope (API key required)
 # Higher quality models, but requires internet and API key
 qwen-agent>=0.0.34
 dashscope>=1.25.0
@@ -76,13 +82,20 @@ pytest-cov>=4.1.0
 # ===========================================
 # Installation Instructions
 # ===========================================
-# 
-# Basic Installation (All dependencies):
+#
+# Basic Installation (All Python dependencies):
 #   pip install -r requirements.txt
 #   playwright install chromium
 #
-# Minimal Installation (Ollama only - Recommended):
+# Minimal Installation (Ollama only):
 #   pip install watchdog python-dotenv ollama
+#
+# Qwen Code CLI Setup (Recommended):
+#   1. Install Qwen Code CLI:
+#      - Download from: https://chat.qwen.ai
+#      - Or: npm install -g @qwen-code/cli
+#   2. Authenticate: qwen-code login
+#   3. Set in .env: AI_PROVIDER=qwen_code_cli
 #
 # Silver Tier Full Setup:
 #   pip install -r requirements.txt
