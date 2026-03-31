@@ -53,7 +53,7 @@ class SocialMediaPost:
         }
 
 
-class FacebookInstagramWatcher(BaseWatcher):
+class FacebookInstagramWatcher:
     """
     Watches and posts to Facebook and Instagram.
 
@@ -78,7 +78,16 @@ class FacebookInstagramWatcher(BaseWatcher):
             session_path: Path to store browser session
             check_interval: Seconds between checks
         """
-        super().__init__(vault_path, check_interval)
+        self.vault_path = Path(vault_path)
+        self.needs_action = self.vault_path / 'Needs_Action'
+        self.pending_approval = self.vault_path / 'Pending_Approval'
+        self.approved = self.vault_path / 'Approved'
+        self.done = self.vault_path / 'Done'
+        self.logs = self.vault_path / 'Logs'
+
+        # Ensure directories exist
+        for folder in [self.needs_action, self.pending_approval, self.approved, self.done, self.logs]:
+            folder.mkdir(parents=True, exist_ok=True)
 
         # Setup session path
         if session_path:
@@ -91,8 +100,36 @@ class FacebookInstagramWatcher(BaseWatcher):
         # Track processed posts
         self.processed_file = self.logs / 'facebook_posts.jsonl'
 
+        # Setup logging
+        self.logger = self._setup_logging()
+
         self.logger.info(f'Facebook/Instagram Watcher initialized')
         self.logger.info(f'Session path: {self.session_path}')
+
+    def _setup_logging(self):
+        """Setup logging."""
+        import logging
+
+        log_file = self.logs / f'facebook_{datetime.now().strftime("%Y-%m-%d")}.log'
+
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(formatter)
+
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        console_handler.setFormatter(formatter)
+
+        logger = logging.getLogger('FacebookInstagramWatcher')
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
+
+        return logger
 
     def check_for_posts(self) -> List[SocialMediaPost]:
         """
